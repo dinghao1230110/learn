@@ -7,4 +7,25 @@
         INSERT INTO `USER_INFO`(ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,LOGIN_NAME,LOGIN_PASSWORD,LAST_LOGIN_DATE,LAST_LOGIN_IP,STATUS)
         VALUES(#{id}, #{firstName}, #{lastName}, #{email}, #{phone}, #{loginName}, #{loginPassword}, #{lastLoginDate}, #{lastLoginIp}, #{status})
     </insert>
+
+    <update id="updateUser">
+        UPDATE `USER_INFO`
+        SET
+        <foreach collection="includeFields" separator="," item="item">
+            <bind name="_param1" value="item.sqlName" />
+            <if test="item.isInclude">
+                ${_param1} = #{item.value}
+            </if>
+        </foreach>
+        <where>
+            ID = #{userInfo.id}
+        </where>
+    </update>
+    
+    <delete id="deleteUser" parameterType="long">
+        DELETE FROM `USER_INFO`
+        <where>
+            ID = #{id}
+        </where>
+    </delete>
 </mapper>

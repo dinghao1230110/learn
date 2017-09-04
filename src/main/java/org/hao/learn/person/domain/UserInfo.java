@@ -1,7 +1,13 @@
 package org.hao.learn.person.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jodd.datetime.JDateTime;
 import org.hao.learn.aggregate.DomainAggregate;
+import org.hao.learn.serializer.JDateTimeDeserializer;
+import org.hao.learn.serializer.JDateTimeSerializer;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by Jao on 2017/8/25.
@@ -10,14 +16,17 @@ public class UserInfo implements DomainAggregate {
     protected long id;
     protected String firstName;
     protected String lastName;
-    private String email;
+    protected String email;
     protected String phone;
     protected String loginName;
     protected String loginPassword;
+    @JsonDeserialize(using = JDateTimeDeserializer.class)
+    @JsonSerialize(using = JDateTimeSerializer.class)
     protected JDateTime lastLoginDate;
     protected String lastLoginIp;
     protected byte status;
 
+    //region property
     public long getId() {
         return id;
     }
@@ -96,5 +105,12 @@ public class UserInfo implements DomainAggregate {
 
     public void setStatus(byte status) {
         this.status = status;
+    }
+    //endregion
+
+    public Object get(String fieldName) throws Exception {
+        Field field = this.getClass().getDeclaredField(fieldName);
+        Object value = field.get(this);
+        return value;
     }
 }

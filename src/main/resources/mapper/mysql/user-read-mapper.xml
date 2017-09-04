@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.hao.learn.person.dao.UserReadDao">
+    <select id="queryById"
+            parameterType="long"
+            resultType="org.hao.learn.person.domain.UserInfo">
+        SELECT ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,LOGIN_NAME,LOGIN_PASSWORD,LAST_LOGIN_DATE,LAST_LOGIN_IP,STATUS
+        FROM `USER_INFO`
+        <where>
+            ID = #{id}
+        </where>
+    </select>
+
+    <select id="queryAll"
+            parameterType="org.hao.learn.database.Limit"
+            resultType="org.hao.learn.person.domain.UserInfo">
+        SELECT ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,LOGIN_NAME,LOGIN_PASSWORD,LAST_LOGIN_DATE,LAST_LOGIN_IP,STATUS
+        FROM `USER_INFO`
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="queryBy"
+            parameterType="org.hao.learn.database.Limit"
+            resultType="org.hao.learn.person.domain.UserInfo">
+        SELECT ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,LOGIN_NAME,LOGIN_PASSWORD,LAST_LOGIN_DATE,LAST_LOGIN_IP,STATUS
+        FROM `USER_INFO`
+        <where>
+            1 = 1
+            <if test="userInfo.firstName != null">
+                <bind name="_like_firstName" value="'%' + userInfo.firstName + '%'" />
+                AND FIRST_NAME LIKE #{_like_firstName}
+            </if>
+            <if test="userInfo.lastName != null">
+                <bind name="_like_lastName" value="'%' + userInfo.lastName + '%'" />
+                AND LAST_NAME LIKE #{_like_lastName}
+            </if>
+            <if test="userInfo.email != null">
+                <bind name="_like_email" value="'%' + userInfo.email + '%'" />
+                AND EMAIL LIKE #{_like_email}
+            </if>
+            <if test="userInfo.phone != null">
+                <bind name="_like_phone" value="'%' + userInfo.phone + '%'" />
+                AND PHONE LIKE #{_like_phone}
+            </if>
+            <if test="userInfo.loginName != null">
+                <bind name="_like_loginName" value="'%' + userInfo.loginName + '%'" />
+                AND LOGIN_NAME LIKE #{_like_loginName}
+            </if>
+            <if test="userInfo.lastLoginIp != null">
+                <bind name="_like_lastLoginIp" value="'%' + userInfo.lastLoginIp + '%'" />
+                AND LAST_LOGIN_IP LIKE #{_like_lastLoginIp}
+            </if>
+            <if test="userInfo.status != null">
+                AND STATUS = #{userInfo.status}
+            </if>
+        </where>
+        LIMIT #{limit.size} OFFSET #{limit.offset}
+    </select>
+</mapper>
