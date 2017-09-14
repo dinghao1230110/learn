@@ -13,18 +13,18 @@ import java.lang.reflect.Field;
  * Created by Jao on 2017/8/25.
  */
 public class UserInfo implements DomainAggregate {
-    protected long id;
-    protected String firstName;
-    protected String lastName;
-    protected String email;
-    protected String phone;
-    protected String loginName;
-    protected String loginPassword;
+    private long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private String loginName;
+    private String loginPassword;
     @JsonDeserialize(using = JDateTimeDeserializer.class)
     @JsonSerialize(using = JDateTimeSerializer.class)
-    protected JDateTime lastLoginDate;
-    protected String lastLoginIp;
-    protected byte status;
+    private JDateTime lastLoginDate;
+    private String lastLoginIp;
+    private byte status;
 
     //region property
     public long getId() {

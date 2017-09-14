@@ -10,10 +10,14 @@ import java.util.List;
 
 @Mapper
 public interface UserReadDao {
+    long queryTotal();
+
     UserInfo queryById(long id);
 
     List<UserInfo> queryAll(Limit limit);
 
     List<UserInfo> queryBy(@Param("sqlQueries") List<SqlQuery> sqlQueries,
                            @Param("limit") Limit limit);
+
+    long queryTotalBy(@Param("sqlQueries") List<SqlQuery> sqlQueries);
 }

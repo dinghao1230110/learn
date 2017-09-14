@@ -18,7 +18,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/hao.learn?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=Hongkong&useSSL=false
     username: root
-    password: 123456789
+    password: root
     initialSize: 5
     minIdle: 5
     maxActive: 20

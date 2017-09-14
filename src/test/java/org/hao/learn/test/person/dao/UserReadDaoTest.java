@@ -20,6 +20,13 @@ public class UserReadDaoTest extends DataBaseTest {
     UserReadDao userReadDao;
 
     @Test
+    public void testQueryTotal() {
+        long result = userReadDao.queryTotal();
+
+        Assert.assertEquals(2, result);
+    }
+
+    @Test
     public void testQueryById() {
         UserInfo userInfo = userReadDao.queryById(6308316580291813376L);
 
@@ -81,5 +88,24 @@ public class UserReadDaoTest extends DataBaseTest {
 
         Assert.assertEquals("Hao", lst.get(0).getLoginName());
         Assert.assertEquals(1, lst.size());
+    }
+
+    @Test
+    public void testQueryTotalBy() {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setFirstName("Ding");
+        userInfo.setLastName("Hao");
+        userInfo.setPhone("30");
+        userInfo.setStatus((byte) 1);
+
+        List<SqlQuery> sqlQueries = new ArrayList<SqlQuery>();
+        sqlQueries.add(new SqlQuery(UserInfoMate.SQL_FIRST_NAME_FIELD, SqlOperator.LIKE, userInfo.getFirstName()));
+        sqlQueries.add(new SqlQuery(UserInfoMate.SQL_LAST_NAME_FIELD, SqlOperator.EQ, userInfo.getLastName()));
+        sqlQueries.add(new SqlQuery(UserInfoMate.SQL_STATUS_FIELD, SqlOperator.AND, userInfo.getStatus()));
+        sqlQueries.add(new SqlQuery(UserInfoMate.SQL_PHONE_FIELD, SqlOperator.NEQ, userInfo.getPhone()));
+
+        long result = userReadDao.queryTotalBy(sqlQueries);
+
+        Assert.assertEquals(1, result);
     }
 }
