@@ -5,6 +5,7 @@ import org.hao.learn.person.dao.UserReadDao;
 import org.hao.learn.person.dao.UserWriteDao;
 import org.hao.learn.person.domain.UserInfo;
 import org.hao.learn.person.service.UserServiceImpl;
+import org.hao.learn.sql.SqlQuery;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 
@@ -32,6 +36,7 @@ public class UserServiceImplTest {
 
     @Test
     public void testQueryByLoginName() {
+        List<SqlQuery> sqlQueries = new ArrayList<>();
         given(this.userReadDao.queryTotalBy(null))
                 .willReturn(2L);
 //        given(this.userReadDao.queryBy(null, null))
