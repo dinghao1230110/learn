@@ -11,7 +11,7 @@
     <update id="updateUser">
         UPDATE `USER_INFO`
         SET
-        <foreach collection="includeFields" separator="," item="item">
+        <foreach collection="sqlFields" separator="," item="item">
             <bind name="_param1" value="item.sqlName" />
             <if test="item.isInclude">
                 ${_param1} = #{item.value}

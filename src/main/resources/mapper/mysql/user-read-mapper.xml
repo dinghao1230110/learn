@@ -24,37 +24,42 @@
     <select id="queryBy"
             parameterType="org.hao.learn.database.Limit"
             resultType="org.hao.learn.person.domain.UserInfo">
-        SELECT ID,FIRST_NAME,LAST_NAME,EMAIL,PHONE,LOGIN_NAME,LOGIN_PASSWORD,LAST_LOGIN_DATE,LAST_LOGIN_IP,STATUS
+        SELECT ID, FIRST_NAME, LAST_NAME, EMAIL, PHONE, LOGIN_NAME, LOGIN_PASSWORD, LAST_LOGIN_DATE, LAST_LOGIN_IP,
+        STATUS
         FROM `USER_INFO`
         <where>
-            1 = 1
-            <if test="userInfo.firstName != null">
-                <bind name="_like_firstName" value="'%' + userInfo.firstName + '%'" />
-                AND FIRST_NAME LIKE #{_like_firstName}
-            </if>
-            <if test="userInfo.lastName != null">
-                <bind name="_like_lastName" value="'%' + userInfo.lastName + '%'" />
-                AND LAST_NAME LIKE #{_like_lastName}
-            </if>
-            <if test="userInfo.email != null">
-                <bind name="_like_email" value="'%' + userInfo.email + '%'" />
-                AND EMAIL LIKE #{_like_email}
-            </if>
-            <if test="userInfo.phone != null">
-                <bind name="_like_phone" value="'%' + userInfo.phone + '%'" />
-                AND PHONE LIKE #{_like_phone}
-            </if>
-            <if test="userInfo.loginName != null">
-                <bind name="_like_loginName" value="'%' + userInfo.loginName + '%'" />
-                AND LOGIN_NAME LIKE #{_like_loginName}
-            </if>
-            <if test="userInfo.lastLoginIp != null">
-                <bind name="_like_lastLoginIp" value="'%' + userInfo.lastLoginIp + '%'" />
-                AND LAST_LOGIN_IP LIKE #{_like_lastLoginIp}
-            </if>
-            <if test="userInfo.status != null">
-                AND STATUS = #{userInfo.status}
-            </if>
+            <foreach collection="sqlQueries" item="sqlQuery">
+                <if test="sqlQuery.operator.toString() == 'EQ'">
+                    AND ${sqlQuery.sqlName} = #{sqlQuery.value}
+                </if>
+                <if test="sqlQuery.operator.toString() == 'NEQ'">
+                    AND ${sqlQuery.sqlName} &lt;&gt; #{sqlQuery.value}
+                </if>
+                <if test="sqlQuery.operator.toString() == 'IN'">
+                    AND ${sqlQuery.sqlName} IN
+                    <foreach collection="sqlQuery.multiValue" item="value" open="(" close=")" separator=",">
+                        #{value}
+                    </foreach>
+                </if>
+                <if test="sqlQuery.operator.toString() == 'LIKE'">
+                    <bind name="_param1" value="'%' + sqlQuery.value + '%'"/>
+                    AND ${sqlQuery.sqlName} LIKE #{_param1}
+                </if>
+                <if test="sqlQuery.operator.toString() == 'AND'">
+                    AND (${sqlQuery.sqlName} &amp; #{sqlQuery.value} = #{sqlQuery.value})
+                </if>
+                <if test="sqlQuery.operator.toString() == 'BETWEEN'">
+                    <!--X >= value and X <= value-->
+                    <foreach collection="sqlQuery.multiValue" item="value" index="index">
+                        <if test="index == 0">
+                            AND ${sqlQuery.sqlName} &gt;= #{value}
+                        </if>
+                        <if test="index == 1">
+                            AND ${sqlQuery.sqlName} &lt;= #{value}
+                        </if>
+                    </foreach>
+                </if>
+            </foreach>
         </where>
         LIMIT #{limit.size} OFFSET #{limit.offset}
     </select>

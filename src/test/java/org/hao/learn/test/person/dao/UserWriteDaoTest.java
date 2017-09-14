@@ -1,7 +1,7 @@
 package org.hao.learn.test.person.dao;
 
 import jodd.datetime.JDateTime;
-import org.hao.learn.bd.IncludeField;
+import org.hao.learn.sql.SqlField;
 import org.hao.learn.person.dao.UserWriteDao;
 import org.hao.learn.person.domain.UserInfo;
 import org.hao.learn.person.domain.UserInfoMate;
@@ -11,7 +11,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,7 +33,7 @@ public class UserWriteDaoTest extends DataBaseTest {
     @Test
     public void testUpdateUser() {
         UserInfoMate userInfoMate = new UserInfoMate();
-        Map<String, IncludeField> includeStatusMap = userInfoMate.generateNotIncludeMap();
+        Map<String, SqlField> includeStatusMap = userInfoMate.generateNotIncludeMap();
         includeStatusMap.get(userInfoMate.EMAIL_INCLUDE_FIELD.toString())
                 .setInclude(true)
                 .setValue("dinghao@163.com");

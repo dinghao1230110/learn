@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.hao.learn.database.Limit;
 import org.hao.learn.person.domain.UserInfo;
+import org.hao.learn.sql.SqlQuery;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ public interface UserReadDao {
 
     List<UserInfo> queryAll(Limit limit);
 
-    List<UserInfo> queryBy(@Param("userInfo") UserInfo userInfo, @Param("limit") Limit limit);
+    List<UserInfo> queryBy(@Param("sqlQueries") List<SqlQuery> sqlQueries,
+                           @Param("limit") Limit limit);
 }

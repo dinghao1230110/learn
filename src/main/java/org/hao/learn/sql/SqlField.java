@@ -1,15 +1,15 @@
-package org.hao.learn.bd;
+package org.hao.learn.sql;
 
-public class IncludeField {
+public class SqlField {
     protected String fieldName;
     protected String sqlName;
     protected Object value;
     protected boolean isInclude = false;
 
-    public IncludeField() {
+    public SqlField() {
     }
 
-    public IncludeField(String fieldName, String sqlName, boolean isInclude) {
+    public SqlField(String fieldName, String sqlName, boolean isInclude) {
         this.fieldName = fieldName;
         this.sqlName = sqlName;
         this.isInclude = isInclude;
@@ -19,7 +19,7 @@ public class IncludeField {
         return isInclude;
     }
 
-    public IncludeField setInclude(boolean include) {
+    public SqlField setInclude(boolean include) {
         isInclude = include;
         return this;
     }
@@ -44,7 +44,7 @@ public class IncludeField {
         return value;
     }
 
-    public IncludeField setValue(Object value) {
+    public SqlField setValue(Object value) {
         this.value = value;
         return this;
     }

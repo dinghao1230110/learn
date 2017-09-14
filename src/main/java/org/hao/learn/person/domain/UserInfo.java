@@ -108,9 +108,10 @@ public class UserInfo implements DomainAggregate {
     }
     //endregion
 
-    public Object get(String fieldName) throws Exception {
+    //反射代码
+  /*  public Object get(String fieldName) throws Exception {
         Field field = this.getClass().getDeclaredField(fieldName);
         Object value = field.get(this);
         return value;
-    }
+    }*/
 }

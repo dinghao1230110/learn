@@ -1,8 +1,7 @@
 package org.hao.learn.person.service;
 
-import jodd.datetime.JDateTime;
 import org.hao.learn.annotate.Function;
-import org.hao.learn.bd.IncludeField;
+import org.hao.learn.sql.SqlField;
 import org.hao.learn.database.Limit;
 import org.hao.learn.api.ReadDataBaseService;
 import org.hao.learn.api.WriteDataBaseService;
@@ -65,7 +64,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
 
     public void update(UserInfo domain) {
         UserInfoMate userInfoMate = new UserInfoMate();
-        Map<String, IncludeField> includeStatusMap = userInfoMate.generateNotIncludeMap();
+        Map<String, SqlField> includeStatusMap = userInfoMate.generateNotIncludeMap();
         includeStatusMap.get(userInfoMate.EMAIL_INCLUDE_FIELD.toString())
                 .setInclude(true)
                 .setValue(domain.getEmail());

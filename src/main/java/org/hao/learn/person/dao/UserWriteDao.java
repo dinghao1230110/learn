@@ -2,11 +2,10 @@ package org.hao.learn.person.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.hao.learn.bd.IncludeField;
+import org.hao.learn.sql.SqlField;
 import org.hao.learn.person.domain.UserInfo;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Jao on 2017/8/25.
@@ -28,7 +27,7 @@ public interface UserWriteDao {
      * @return
      */
     int updateUser(@Param("userInfo") UserInfo userInfo,
-                   @Param("includeFields") List<IncludeField> includeFields);
+                   @Param("sqlFields") List<SqlField> sqlFields);
 
     int deleteUser(long id);
 }
