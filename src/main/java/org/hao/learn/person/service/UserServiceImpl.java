@@ -1,16 +1,17 @@
 package org.hao.learn.person.service;
 
+import jodd.util.StringUtil;
 import org.hao.learn.annotate.Function;
-import org.hao.learn.collection.PageInfo;
-import org.hao.learn.person.dao.UserReadDao;
-import org.hao.learn.sql.SqlField;
-import org.hao.learn.database.Limit;
 import org.hao.learn.api.ReadDataBaseService;
 import org.hao.learn.api.WriteDataBaseService;
+import org.hao.learn.collection.PageInfo;
+import org.hao.learn.database.Limit;
 import org.hao.learn.exception.MyException;
+import org.hao.learn.person.dao.UserReadDao;
 import org.hao.learn.person.dao.UserWriteDao;
 import org.hao.learn.person.domain.UserInfo;
 import org.hao.learn.person.domain.UserInfoMate;
+import org.hao.learn.sql.SqlField;
 import org.hao.learn.sql.SqlOperator;
 import org.hao.learn.sql.SqlQuery;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,15 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      * @return
      */
     public PageInfo<UserInfo> queryByLoginName(String loginName, int pageIndex, int pageSize) {
+        if (!StringUtil.isNotEmpty(loginName)) {
+            throw new MyException("登录名不能为空");
+        }
+
+        Limit limit = Limit.generateLimitByPage(pageIndex, pageSize);
+
         List<SqlQuery> sqlQueries = new ArrayList<>();
         sqlQueries.add(new SqlQuery(UserInfoMate.SQL_LOGIN_NAME_FIELD, SqlOperator.LIKE, loginName));
 
-        Limit          limit  = Limit.generateLimitByPage(pageIndex, pageSize);
         long           total  = userReadDao.queryTotalBy(sqlQueries);
         List<UserInfo> result = userReadDao.queryBy(sqlQueries, limit);
 
