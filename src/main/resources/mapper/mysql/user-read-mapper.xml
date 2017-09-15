@@ -78,7 +78,6 @@
     <select id="queryTotalBy" resultType="long">
         SELECT
         <include refid="total"/>
-        STATUS
         FROM `USER_INFO`
         <include refid="where"/>
     </select>

@@ -14,11 +14,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.anyListOf;
-import static org.mockito.Matchers.isA;
+import static org.mockito.BDDMockito.*;
 
 /**
  * Created by Jao on 2017/8/25.
@@ -36,8 +35,8 @@ public class UserServiceImplTest extends ServiceBaseTest {
     @Test
     public void testQueryByLoginName() {
         //region 正常执行
-        given(this.userReadDao.queryTotalBy(anyListOf(SqlQuery.class)))
-                .willReturn(2L);
+        given(this.userReadDao.queryTotalBy(Matchers.anyListOf(SqlQuery.class)))
+                .willReturn(10L);
         given(this.userReadDao.queryBy(anyListOf(SqlQuery.class), isA(Limit.class)))
                 .willReturn(null);
         PageInfo<UserInfo> pageInfo = UserServiceImpl.queryByLoginName("...", 1, 10);

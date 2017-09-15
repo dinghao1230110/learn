@@ -86,7 +86,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
     public void add(UserInfo domain) {
         int result = userWriteDao.insertUser(domain);
         if (result != 1) {
-            throw new RuntimeException("新增用户失败");
+            throw new MyException("新增用户失败");
         }
     }
 
