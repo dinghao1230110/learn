@@ -86,7 +86,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
     public void add(UserInfo domain) {
         int result = userWriteDao.insertUser(domain);
         if (result != 1) {
-            throw new RuntimeException("新增用户失败");
+            throw new MyException("新增用户失败");
         }
     }
 
@@ -103,7 +103,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
             insertTotal += result;
         }
         if (domains.size() != insertTotal) {
-            throw new MyException("批量增加用户失败。预期增加数量：" + domains.size() + "，实际增加数量" + insertTotal);
+            throw new MyException("批量增加用户失败");
         }
     }
 
@@ -144,6 +144,9 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      * @param userInfo
      */
     public void delete(UserInfo userInfo) {
+        if(userInfo == null){
+            throw new MyException("用户不能为空");
+        }
         int result = userWriteDao.deleteUser(userInfo.getId());
         if (result != 1) {
             throw new MyException("删除用户失败");
@@ -163,7 +166,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
             insertTotal += result;
         }
         if (domains.size() != insertTotal) {
-            throw new MyException("批量删除用户失败。预期删除数量：" + domains.size() + "，实际删除数量" + insertTotal);
+            throw new MyException("批量删除用户失败");
         }
     }
     //endregion
