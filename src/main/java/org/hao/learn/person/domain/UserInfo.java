@@ -3,28 +3,43 @@ package org.hao.learn.person.domain;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import jodd.datetime.JDateTime;
+import jodd.vtor.constraint.Length;
+import jodd.vtor.constraint.NotBlank;
+import jodd.vtor.constraint.NotNull;
 import org.hao.learn.aggregate.DomainAggregate;
 import org.hao.learn.serializer.JDateTimeDeserializer;
 import org.hao.learn.serializer.JDateTimeSerializer;
-
-import java.lang.reflect.Field;
+import org.hao.learn.vtor.RegExp;
 
 /**
  * Created by Jao on 2017/8/25.
  */
 public class UserInfo implements DomainAggregate {
-    private long id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String phone;
-    private String loginName;
-    private String loginPassword;
+    private long      id;
+    @NotNull(message = "姓不能为空")
+    @NotBlank(message = "姓不能为空白")
+    @Length(min = 1, max = 32, message = "姓的长度在 1 - 32 之间")
+    private String    firstName;
+    @NotNull(message = "名不能为空")
+    @NotBlank(message = "名不能为空白")
+    @Length(min = 1, max = 32, message = "名的长度在 1 - 32 之间")
+    private String    lastName;
+    @NotNull(message = "邮箱不能为空")
+    @NotBlank(message = "邮箱不能为空白")
+    @Length(min = 2, max = 64, message = "邮箱的长度在 2 - 64 之间")
+    @RegExp(value = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w{2,3}){1,3})$", message = "邮箱格式不匹配")
+    private String    email;
+    @NotNull(message = "手机不能为空")
+    @NotBlank(message = "手机不能为空白")
+    @RegExp(value = "^1[3|5|7|8]\\d{9}$", message = "手机格式不正确")
+    private String    phone;
+    private String    loginName;
+    private String    loginPassword;
     @JsonDeserialize(using = JDateTimeDeserializer.class)
     @JsonSerialize(using = JDateTimeSerializer.class)
     private JDateTime lastLoginDate;
-    private String lastLoginIp;
-    private byte status;
+    private String    lastLoginIp;
+    private byte      status;
 
     //region property
     public long getId() {
