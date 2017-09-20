@@ -54,9 +54,14 @@ public class VtorAspect {
                         if (result != null) {
                             //region 过滤出期望的验证错误信息
                             for (Violation violation : result) {
-                                if (valid.value() != null) {
-                                    for (String field : valid.value()) {
+                                for (String field : valid.value()) {
+                                    if (valid.isInclude()) {
                                         if (field.equals(violation.getName())) {
+                                            errorMessages.add(violation.getCheck().getMessage());
+                                            break;
+                                        }
+                                    } else {
+                                        if (!field.equals(violation.getName())) {
                                             errorMessages.add(violation.getCheck().getMessage());
                                             break;
                                         }
@@ -73,9 +78,6 @@ public class VtorAspect {
 
         if (errorMessages.size() > 0) {
             throw new VtorException(errorMessages);
-//            for (String msg : errorMessages) {
-//                logger.error(msg);
-//            }
         }
     }
 }

@@ -6,6 +6,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface Valid {
-    //要验证的字段
+    //一种是要验证的包含字段, 一种是要验证的排除字段
+    //包含字段isInclude=true, 排除isInclude=false
     String[] value() default {};
+
+    boolean isInclude() default true;
 }
