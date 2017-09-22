@@ -123,6 +123,23 @@ public class UserInfo implements DomainAggregate {
     }
     //endregion
 
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", loginPassword='" + loginPassword + '\'' +
+                ", lastLoginDate=" + lastLoginDate +
+                ", lastLoginIp='" + lastLoginIp + '\'' +
+                ", status=" + status +
+                '}';
+    }
+
+
     //反射代码
   /*  public Object get(String fieldName) throws Exception {
         Field field = this.getClass().getDeclaredField(fieldName);

@@ -2,11 +2,14 @@ package org.hao.learn.person.controller;
 
 import org.hao.learn.api.ReadDataBaseService;
 import org.hao.learn.api.WriteDataBaseService;
+import org.hao.learn.collection.PageInfo;
 import org.hao.learn.person.domain.UserInfo;
 import org.hao.learn.person.domain.UserInfoMate;
 import org.hao.learn.vtor.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 /**
  * Created by Jao on 2017/8/25.
@@ -23,6 +26,13 @@ public class UserController {
     WriteDataBaseService<UserInfo> writeDataBaseService;
     @Autowired
     ReadDataBaseService<UserInfo>  readDataBaseService;
+    @Autowired
+    HttpSession                    httpSession;
+
+    @PostMapping("/login")
+    public void login(@RequestBody UserInfo userInfo) {
+        httpSession.setAttribute("userInfo", userInfo);
+    }
 
     @PostMapping
     public void addUserInfo(@RequestBody
@@ -32,9 +42,9 @@ public class UserController {
         //writeDataBaseService.add(userInfo);
     }
 
-    @GetMapping("/byLoginName")
-    public void getByLoginName() {
-        readDataBaseService.queryByLoginName(null, 1, 1);
+    @GetMapping("/byLoginName/{loginName}/{pageIndex}")
+    public PageInfo<UserInfo> getByLoginName(@PathVariable("loginName") String loginName, @PathVariable("pageIndex") int pageIndex) {
+        return readDataBaseService.queryByLoginName(loginName, pageIndex, 10);
     }
 
     @GetMapping

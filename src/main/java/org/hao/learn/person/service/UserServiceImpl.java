@@ -57,11 +57,8 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      * @param pageSize
      * @return
      */
+    @Function(6317038017294897152L)
     public PageInfo<UserInfo> queryByLoginName(String loginName, int pageIndex, int pageSize) {
-        if (!StringUtil.isNotEmpty(loginName)) {
-            throw new MyException("登录名不能为空");
-        }
-
         Limit limit = Limit.generateLimitByPage(pageIndex, pageSize);
 
         List<SqlQuery> sqlQueries = new ArrayList<>();
@@ -82,7 +79,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      *
      * @param domain
      */
-    @Function(code = 1, name = "addUser", cnName = "新增用户")
+    @Function(6317038017294901248L)
     public void add(UserInfo domain) {
         int result = userWriteDao.insertUser(domain);
         if (result != 1) {
@@ -91,11 +88,12 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
     }
 
     /**
-     * 批量删除用户
+     * 批量新增用户
      *
      * @param domains
      */
     @Transactional
+    @Function(6317038017294905344L)
     public void batchAdd(List<UserInfo> domains) {
         int insertTotal = 0;
         for (UserInfo userInfo : domains) {
@@ -113,6 +111,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      *
      * @param domain
      */
+    @Function(6317038017299103744L)
     public void update(UserInfo domain) {
         UserInfoMate          userInfoMate     = new UserInfoMate();
         Map<String, SqlField> includeStatusMap = userInfoMate.generateNotIncludeMap();
@@ -143,8 +142,9 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      *
      * @param userInfo
      */
+    @Function(6317038017299107840L)
     public void delete(UserInfo userInfo) {
-        if(userInfo == null){
+        if (userInfo == null) {
             throw new MyException("用户不能为空");
         }
         int result = userWriteDao.deleteUser(userInfo.getId());
@@ -159,6 +159,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      * @param domains
      */
     @Transactional
+    @Function(6317038017299111936L)
     public void batchDelete(List<UserInfo> domains) {
         int insertTotal = 0;
         for (UserInfo userInfo : domains) {

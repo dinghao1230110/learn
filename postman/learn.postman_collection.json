@@ -1,0 +1,102 @@
+{
+	"id": "aeaa29b1-81c0-0266-426f-11448564bc92",
+	"name": "learn",
+	"description": "",
+	"order": [
+		"b6879541-819f-60d8-9ceb-182b078d5f60",
+		"e62f50bd-1790-396a-6533-c0b41829fcaa",
+		"5da997c9-4e7b-e642-b515-183dbd243a41"
+	],
+	"folders": [],
+	"folders_order": [],
+	"timestamp": 1506101368604,
+	"owner": 0,
+	"public": false,
+	"requests": [
+		{
+			"id": "5da997c9-4e7b-e642-b515-183dbd243a41",
+			"headers": "",
+			"headerData": [],
+			"url": "http://localhost:8081/user/byLoginName/hao/1",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "aeaa29b1-81c0-0266-426f-11448564bc92",
+			"data": null,
+			"dataMode": "params",
+			"name": "根据登录名查询用户",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1506101460698,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {}
+		},
+		{
+			"id": "b6879541-819f-60d8-9ceb-182b078d5f60",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8081/user/login",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "aeaa29b1-81c0-0266-426f-11448564bc92",
+			"data": [],
+			"dataMode": "raw",
+			"name": "田西泽登录",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1506101378706,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"id\": \"6308947494508171264\",\n\t\"loginName\": \"maintk\"\n}"
+		},
+		{
+			"id": "e62f50bd-1790-396a-6533-c0b41829fcaa",
+			"headers": "Content-Type: application/json\n",
+			"headerData": [
+				{
+					"key": "Content-Type",
+					"value": "application/json",
+					"description": "",
+					"enabled": true
+				}
+			],
+			"url": "http://localhost:8081/user/login",
+			"queryParams": [],
+			"pathVariables": {},
+			"pathVariableData": [],
+			"preRequestScript": null,
+			"method": "POST",
+			"collectionId": "aeaa29b1-81c0-0266-426f-11448564bc92",
+			"data": [],
+			"dataMode": "raw",
+			"name": "丁浩登录",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1506101397053,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"rawModeData": "{\n\t\"id\": \"6308316580291813376\",\n\t\"loginName\": \"Hao\"\n}"
+		}
+	]
+}

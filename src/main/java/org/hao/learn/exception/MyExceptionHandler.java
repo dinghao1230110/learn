@@ -21,9 +21,9 @@ public class MyExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_IMPLEMENTED)
     @ExceptionHandler(MyException.class)
     @ResponseBody
-    public ExceptionResponse myExceptionHandler(MyException vtorException) {
+    public ExceptionResponse myExceptionHandler(MyException myException) {
         ExceptionResponse exceptionResponse = new ExceptionResponse();
-        exceptionResponse.setMessage(vtorException.getMessage());
+        exceptionResponse.setMessage(myException.getMessage());
         return exceptionResponse;
     }
 }
