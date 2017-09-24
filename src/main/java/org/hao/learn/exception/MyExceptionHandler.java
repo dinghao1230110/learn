@@ -26,4 +26,23 @@ public class MyExceptionHandler {
         exceptionResponse.setMessage(myException.getMessage());
         return exceptionResponse;
     }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseBody
+    public ExceptionResponse authenticationExceptionHandler(AuthenticationException authenticationException) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse();
+        exceptionResponse.setMessage(authenticationException.getMessage());
+        return exceptionResponse;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(NotLoginException.class)
+    @ResponseBody
+    public ExceptionResponse authenticationExceptionHandler(NotLoginException notLoginException) {
+        ExceptionResponse exceptionResponse = new ExceptionResponse();
+        exceptionResponse.setMessage(notLoginException.getMessage());
+        return exceptionResponse;
+    }
+
 }

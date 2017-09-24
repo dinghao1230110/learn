@@ -15,7 +15,9 @@ import org.springframework.context.annotation.Configuration;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Aspect
 @Configuration
@@ -47,7 +49,11 @@ public class VtorAspect {
                 //遍历第二维数组获取参数注解, 并且获取Valid注解
                 for (Annotation annotation : tempAnnotation) {
                     if (annotation.annotationType() == Valid.class) {
-                        Valid valid = (Valid) annotation;
+                        Valid                valid   = (Valid) annotation;
+                        Map<String, Boolean> validValueMap = new HashMap<>();
+                        for (String validValue : valid.value()) {
+                            validValueMap.put(validValue, true);
+                        }
 
                         Vtor            vtor   = new Vtor();
                         List<Violation> result = vtor.validate(arg);
@@ -56,12 +62,12 @@ public class VtorAspect {
                             for (Violation violation : result) {
                                 for (String field : valid.value()) {
                                     if (valid.isInclude()) {
-                                        if (field.equals(violation.getName())) {
+                                        if (validValueMap.containsKey(violation.getName())) {
                                             errorMessages.add(violation.getCheck().getMessage());
                                             break;
                                         }
                                     } else {
-                                        if (!field.equals(violation.getName())) {
+                                        if (!validValueMap.containsKey(violation.getName())) {
                                             errorMessages.add(violation.getCheck().getMessage());
                                             break;
                                         }

@@ -3,6 +3,7 @@ package org.hao.learn.test.person.domain;
 import jodd.vtor.Violation;
 import jodd.vtor.Vtor;
 import org.hao.learn.person.domain.UserInfo;
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,8 +19,8 @@ public class UserInfoTest {
     @Test
     public void testVtor() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setFirstName("丁");
-        userInfo.setLastName("浩");
+        userInfo.setFirstName("");
+        userInfo.setLastName("");
         userInfo.setPhone("19088888888");
         userInfo.setEmail("dinghao163.com");
 
@@ -30,5 +31,6 @@ public class UserInfoTest {
                 logger.info(violation.getCheck().getMessage());
             }
         }
+        Assert.assertEquals(4,result.size());
     }
 }

@@ -1,6 +1,9 @@
 package org.hao.learn.exception;
 
+import sun.plugin2.message.Message;
+
 public class AuthenticationException extends MyException {
+    String messages;
     public AuthenticationException() {
     }
 
@@ -19,4 +22,5 @@ public class AuthenticationException extends MyException {
     public AuthenticationException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

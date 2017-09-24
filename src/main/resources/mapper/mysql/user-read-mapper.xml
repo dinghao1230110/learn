@@ -85,4 +85,18 @@
     <select id="queryTotal" resultType="long">
         SELECT COUNT(*) FROM `USER_INFO`
     </select>
+
+    <select id="queryUserRole" resultType="long">
+        SELECT
+        `ROLE_ID`
+        FROM`USER_ROLE`
+        WHERE USER_ID = #{id}
+    </select>
+
+    <select id="queryFunction" resultType="long">
+        SELECT
+        `FUNCTION_ID`
+        FROM`ROLE_FUNCTION`
+        WHERE ROLE_ID = #{id}
+    </select>
 </mapper>

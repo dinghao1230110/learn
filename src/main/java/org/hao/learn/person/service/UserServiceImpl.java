@@ -1,6 +1,7 @@
 package org.hao.learn.person.service;
 
 import jodd.util.StringUtil;
+import org.aspectj.lang.annotation.Before;
 import org.hao.learn.annotate.Function;
 import org.hao.learn.api.ReadDataBaseService;
 import org.hao.learn.api.WriteDataBaseService;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,8 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
     UserWriteDao userWriteDao;
     @Autowired
     UserReadDao  userReadDao;
+    @Autowired
+    HttpSession httpSession;
 
     //region read
     public UserInfo queryById(long id) {
@@ -57,7 +61,6 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      * @param pageSize
      * @return
      */
-    @Function(6317038017294897152L)
     public PageInfo<UserInfo> queryByLoginName(String loginName, int pageIndex, int pageSize) {
         Limit limit = Limit.generateLimitByPage(pageIndex, pageSize);
 
@@ -70,6 +73,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
         PageInfo<UserInfo> pageInfo = new PageInfo<>(limit.getPageIndex(), limit.getPageSize(), total, result);
         return pageInfo;
     }
+
     //endregion
 
     //region write
@@ -79,7 +83,6 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      *
      * @param domain
      */
-    @Function(6317038017294901248L)
     public void add(UserInfo domain) {
         int result = userWriteDao.insertUser(domain);
         if (result != 1) {
@@ -93,7 +96,6 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      * @param domains
      */
     @Transactional
-    @Function(6317038017294905344L)
     public void batchAdd(List<UserInfo> domains) {
         int insertTotal = 0;
         for (UserInfo userInfo : domains) {
@@ -111,7 +113,6 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      *
      * @param domain
      */
-    @Function(6317038017299103744L)
     public void update(UserInfo domain) {
         UserInfoMate          userInfoMate     = new UserInfoMate();
         Map<String, SqlField> includeStatusMap = userInfoMate.generateNotIncludeMap();
@@ -142,7 +143,6 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      *
      * @param userInfo
      */
-    @Function(6317038017299107840L)
     public void delete(UserInfo userInfo) {
         if (userInfo == null) {
             throw new MyException("用户不能为空");
@@ -159,7 +159,6 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
      * @param domains
      */
     @Transactional
-    @Function(6317038017299111936L)
     public void batchDelete(List<UserInfo> domains) {
         int insertTotal = 0;
         for (UserInfo userInfo : domains) {
@@ -171,4 +170,5 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
         }
     }
     //endregion
+
 }

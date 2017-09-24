@@ -14,3 +14,4 @@ public class ProgramEntry {
         SpringApplication.run(ProgramEntry.class, args);
     }
 }
+

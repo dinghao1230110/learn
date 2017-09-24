@@ -10,6 +10,8 @@ import org.hao.learn.aggregate.DomainAggregate;
 import org.hao.learn.serializer.JDateTimeDeserializer;
 import org.hao.learn.serializer.JDateTimeSerializer;
 import org.hao.learn.vtor.RegExp;
+import org.hibernate.validator.constraints.Email;
+//import org.hao.learn.vtor.RegExp;
 
 /**
  * Created by Jao on 2017/8/25.
@@ -27,6 +29,7 @@ public class UserInfo implements DomainAggregate {
     @NotNull(message = "邮箱不能为空")
     @NotBlank(message = "邮箱不能为空白")
     @Length(min = 2, max = 64, message = "邮箱的长度在 2 - 64 之间")
+
     @RegExp(value = "^(\\w)+(\\.\\w+)*@(\\w)+((\\.\\w{2,3}){1,3})$", message = "邮箱格式不匹配")
     private String    email;
     @NotNull(message = "手机不能为空")

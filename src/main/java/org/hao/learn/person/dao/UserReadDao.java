@@ -20,4 +20,7 @@ public interface UserReadDao {
                            @Param("limit") Limit limit);
 
     long queryTotalBy(@Param("sqlQueries") List<SqlQuery> sqlQueries);
+
+
+
 }

@@ -3,6 +3,7 @@ package org.hao.learn.api;
 import org.hao.learn.aggregate.DomainAggregate;
 import org.hao.learn.collection.PageInfo;
 import org.hao.learn.database.Limit;
+import org.hao.learn.person.domain.UserInfo;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface ReadDataBaseService<T extends DomainAggregate> {
     PageInfo<T> queryAll(int pageIndex, int pageSize);
 
     PageInfo<T> queryByLoginName(String logName, int pageIndex, int pageSize);
+
+
+
 }
