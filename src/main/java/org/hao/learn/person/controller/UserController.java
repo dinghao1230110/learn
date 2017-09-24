@@ -42,11 +42,6 @@ public class UserController {
     @Autowired
     HttpSession                           httpSession;
 
-    @PostConstruct
-    public void init() {
-        functionService.refreshFunction();
-    }
-
     @PostMapping("/login")
     public UserInfo login(@RequestBody UserInfo userInfo) {
         readDataBaseService.queryByLoginName("Hao", 1, 10);

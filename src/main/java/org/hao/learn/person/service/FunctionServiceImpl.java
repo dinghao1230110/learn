@@ -50,7 +50,7 @@ public class FunctionServiceImpl implements FunctionDataBaseService<FunctionInfo
         if (roles.size() > 0) {
             List<RoleFunction> lst = functionDao.queryFunctionByRole(roles);
             for (RoleFunction roleFunction : lst) {
-                FunctionInfo functionInfo = queryFunctionById(roleFunction.getFunctionId());
+                FunctionInfo functionInfo = this.queryFunctionById(roleFunction.getFunctionId());
                 if (functionInfo != null) {
                     functions.put(functionInfo.getId(), functionInfo);
                 }
