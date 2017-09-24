@@ -1,10 +1,12 @@
 package org.hao.learn.person.domain;
 
 
+import org.hao.learn.aggregate.DomainAggregate;
+
 /**
  * Created by XizeTian on 2017-09-23 00:48:48.
  */
-public class FunctionInfo {
+public class FunctionInfo implements DomainAggregate {
     private long    id;
     private String  name;
     private boolean isMenu;

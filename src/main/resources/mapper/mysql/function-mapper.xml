@@ -7,14 +7,29 @@
     <select id="queryFunction" resultType="long">
         SELECT
         `FUNCTION_ID`
-        FROM`ROLE_FUNCTION`
+        FROM `ROLE_FUNCTION`
         WHERE ROLE_ID = #{id}
     </select>
 
     <select id="queryFunctionName" resultType="String">
         SELECT
         `NAME`
-        FROM`FUNCTION_INFO`
+        FROM `FUNCTION_INFO`
         WHERE ID = #{id}
+    </select>
+
+    <!---->
+    <select id="queryAllFunction" resultType="org.hao.learn.person.domain.FunctionInfo">
+        SELECT *
+        FROM `FUNCTION_INFO`
+    </select>
+
+    <select id="queryFunctionByRole" resultType="org.hao.learn.person.domain.RoleFunction">
+        SELECT *
+        FROM `ROLE_FUNCTION`
+        WHERE ROLE_ID IN
+        <foreach collection="roles" separator="," open="(" close=")" item="role">
+            #{role.id}
+        </foreach>
     </select>
 </mapper>

@@ -1,17 +1,23 @@
 package org.hao.learn.person.controller;
 
 import org.hao.learn.annotate.Function;
+import org.hao.learn.api.FunctionDataBaseService;
 import org.hao.learn.api.ReadDataBaseService;
+import org.hao.learn.api.RoleDataBaseService;
 import org.hao.learn.api.WriteDataBaseService;
 import org.hao.learn.collection.PageInfo;
+import org.hao.learn.person.domain.FunctionInfo;
+import org.hao.learn.person.domain.RoleInfo;
 import org.hao.learn.person.domain.UserInfo;
 import org.hao.learn.person.domain.UserInfoMate;
+import org.hao.learn.person.service.RoleServiceImpl;
 import org.hao.learn.vtor.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,17 +32,32 @@ public class UserController {
     //delete 删除数据
 
     @Autowired
-    WriteDataBaseService<UserInfo> writeDataBaseService;
+    WriteDataBaseService<UserInfo>        writeDataBaseService;
     @Autowired
-    ReadDataBaseService<UserInfo>  readDataBaseService;
+    ReadDataBaseService<UserInfo>         readDataBaseService;
     @Autowired
-    HttpSession                    httpSession;
+    FunctionDataBaseService<FunctionInfo> functionService;
+    @Autowired
+    RoleDataBaseService<RoleInfo>         roleService;
+    @Autowired
+    HttpSession                           httpSession;
+
+    @PostConstruct
+    public void init() {
+        functionService.refreshFunction();
+    }
 
     @PostMapping("/login")
     public UserInfo login(@RequestBody UserInfo userInfo) {
+        readDataBaseService.queryByLoginName("Hao", 1, 10);
+
+        List<RoleInfo>          roles     = roleService.queryRoleByUserId(userInfo.getId());
+        Map<Long, FunctionInfo> functions = functionService.queryFunctionByRole(roles);
 
         httpSession.setAttribute("userInfo", userInfo);
-        readDataBaseService.queryByLoginName("Hao", 1, 10);
+        httpSession.setAttribute("roles", roles);
+        httpSession.setAttribute("functions", functions);
+
         return userInfo;
     }
 

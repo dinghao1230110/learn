@@ -17,4 +17,19 @@
         FROM`ROLE_FUNCTION`
         WHERE ROLE_ID = #{id}
     </select>
+
+    <select id="queryUserRoleByUserId" resultType="org.hao.learn.person.domain.UserRole">
+        SELECT *
+        FROM `USER_ROLE`
+        WHERE USER_ID = #{userId}
+    </select>
+
+    <select id="queryRoleById" resultType="org.hao.learn.person.domain.RoleInfo">
+        SELECT *
+        FROM `ROLE_INFO`
+        WHERE ID IN
+        <foreach collection="ids" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

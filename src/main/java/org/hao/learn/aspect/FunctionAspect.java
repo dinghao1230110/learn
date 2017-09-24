@@ -5,11 +5,9 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.hao.learn.annotate.Function;
+import org.hao.learn.api.FunctionDataBaseService;
 import org.hao.learn.exception.AuthenticationException;
-import org.hao.learn.exception.NotLoginException;
-import org.hao.learn.person.domain.UserInfo;
-import org.hao.learn.person.service.FunctionServiceImpl;
-import org.hao.learn.person.service.RoleServiceImpl;
+import org.hao.learn.person.domain.FunctionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
 import javax.servlet.http.HttpSession;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 
 @Aspect
@@ -27,11 +24,9 @@ public class FunctionAspect {
     private static final Logger logger = LoggerFactory.getLogger(FunctionAspect.class);
 
     @Autowired
-    HttpSession         httpSession;
+    HttpSession                           httpSession;
     @Autowired
-    RoleServiceImpl     roleService;
-    @Autowired
-    FunctionServiceImpl functionService;
+    FunctionDataBaseService<FunctionInfo> functionService;
 
 
     /**
@@ -44,35 +39,20 @@ public class FunctionAspect {
         //region 获取拦截的方法
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method          targetMethod    = methodSignature.getMethod();
+        //从 session 缓存中取出当前登录用户持有的功能
+        Object functionsObj = httpSession.getAttribute("functions");
+        //转换 object 为 Map<Long, FunctionInfo>
+        Map<Long, FunctionInfo> functions = (Map<Long, FunctionInfo>) functionsObj;
 
         Annotation[] annotations = targetMethod.getAnnotations();
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i] instanceof Function) {
-                Function function = (Function) annotations[i];
+                Function     function     = (Function) annotations[i];
+                FunctionInfo functionInfo = functionService.queryFunctionById(function.value());
 
-                //获取当前登录用户
-                if (httpSession.getAttribute("userInfo") == null) {
-                    throw new NotLoginException();
+                if (!functions.containsKey(function.value())) {
+                    throw new AuthenticationException("您没有访问 " + functionInfo.getName() + " 的权限");
                 }
-                logger.info(httpSession.getAttribute("userInfo").toString());
-
-                //读取当前用户的角色
-                UserInfo userInfo = (UserInfo) httpSession.getAttribute("userInfo");
-                long     roleId   = roleService.queryUserRole(userInfo.getId());
-
-                //读取当前角色的功能
-                List<Long> functionIds  = functionService.queryFunction(roleId);
-                String     functionName = functionService.queryFunctionName(function.value());
-                for (Long functionId : functionIds) {
-                    //判断当前角色持有的功能是否包含function.value()
-                    if (function.value() == (functionId)) {
-
-                    } else {
-                        //如果不是抛出AuthenticationException异常
-                        throw new AuthenticationException("您没有访问" + functionName + "的权限");
-                    }
-                }
-                logger.info(String.valueOf(function.value()));
             }
         }
     }
