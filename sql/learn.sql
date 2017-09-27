@@ -37,13 +37,31 @@ INSERT INTO `function_info` (`id`, `name`, `is_menu`, `parent_id`, `remark`) VAL
 /*!40000 ALTER TABLE `function_info` ENABLE KEYS */;
 
 
+-- 导出  表 hao.learn.log_info 结构
+CREATE TABLE IF NOT EXISTS `log_info` (
+  `id` bigint(20) DEFAULT NULL,
+  `key` varchar(50) DEFAULT NULL,
+  `success` bit(1) DEFAULT NULL,
+  `primary_parameter` longtext,
+  `remark` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 正在导出表  hao.learn.log_info 的数据：~3 rows (大约)
+/*!40000 ALTER TABLE `log_info` DISABLE KEYS */;
+INSERT INTO `log_info` (`id`, `key`, `success`, `primary_parameter`, `remark`) VALUES
+	(6318830268685750272, '无权限', b'0', NULL, '您没有访问 根据登录名查询用户 的权限'),
+	(6318830311576707072, '调用功能', b'1', '["hao",1]', '根据登录名查询用户'),
+	(6318830335123533824, '无权限', b'0', NULL, '您没有访问 新增单个用户 的权限');
+/*!40000 ALTER TABLE `log_info` ENABLE KEYS */;
+
+
 -- 导出  表 hao.learn.role_function 结构
 CREATE TABLE IF NOT EXISTS `role_function` (
   `role_id` bigint(20) DEFAULT NULL,
   `function_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  hao.learn.role_function 的数据：~0 rows (大约)
+-- 正在导出表  hao.learn.role_function 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `role_function` DISABLE KEYS */;
 INSERT INTO `role_function` (`role_id`, `function_id`) VALUES
 	(6317038017299095552, 6317038017294897152);
@@ -84,7 +102,7 @@ CREATE TABLE IF NOT EXISTS `user_info` (
   UNIQUE KEY `UK_PHONE` (`PHONE`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  hao.learn.user_info 的数据：~3 rows (大约)
+-- 正在导出表  hao.learn.user_info 的数据：~2 rows (大约)
 /*!40000 ALTER TABLE `user_info` DISABLE KEYS */;
 INSERT INTO `user_info` (`ID`, `FIRST_NAME`, `LAST_NAME`, `EMAIL`, `PHONE`, `LOGIN_NAME`, `LOGIN_PASSWORD`, `LAST_LOGIN_DATE`, `LAST_LOGIN_IP`, `STATUS`) VALUES
 	(6308316580291813376, 'Ding', 'Hao', 'dinghao@163.com', '13000000000', 'Hao', NULL, '2017-09-04 23:56:21', '192.168.1.1', 1),
@@ -98,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `user_role` (
   `role_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- 正在导出表  hao.learn.user_role 的数据：~0 rows (大约)
+-- 正在导出表  hao.learn.user_role 的数据：~1 rows (大约)
 /*!40000 ALTER TABLE `user_role` DISABLE KEYS */;
 INSERT INTO `user_role` (`user_id`, `role_id`) VALUES
 	(6308316580291813376, 6317038017299095552);

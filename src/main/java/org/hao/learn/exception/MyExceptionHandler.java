@@ -1,6 +1,7 @@
 package org.hao.learn.exception;
 
-import org.apache.commons.lang3.StringUtils;
+import org.hao.learn.api.LogService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class MyExceptionHandler {
+
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(VtorException.class)
     @ResponseBody

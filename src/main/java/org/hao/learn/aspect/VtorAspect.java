@@ -1,15 +1,18 @@
 package org.hao.learn.aspect;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import jodd.vtor.Violation;
 import jodd.vtor.Vtor;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.hao.learn.api.LogService;
 import org.hao.learn.exception.VtorException;
 import org.hao.learn.vtor.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.annotation.Annotation;
@@ -30,7 +33,7 @@ public class VtorAspect {
      * @param joinPoint
      */
     @Before("execution(* org.hao.learn..*Controller.*(..))")
-    public void valid(JoinPoint joinPoint) throws NoSuchMethodException {
+    public void valid(JoinPoint joinPoint) throws NoSuchMethodException, JsonProcessingException {
         //region 获取拦截的方法
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         Method          targetMethod    = methodSignature.getMethod();
@@ -49,7 +52,7 @@ public class VtorAspect {
                 //遍历第二维数组获取参数注解, 并且获取Valid注解
                 for (Annotation annotation : tempAnnotation) {
                     if (annotation.annotationType() == Valid.class) {
-                        Valid                valid   = (Valid) annotation;
+                        Valid                valid         = (Valid) annotation;
                         Map<String, Boolean> validValueMap = new HashMap<>();
                         for (String validValue : valid.value()) {
                             validValueMap.put(validValue, true);

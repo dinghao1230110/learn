@@ -1,10 +1,7 @@
 package org.hao.learn.person.controller;
 
 import org.hao.learn.annotate.Function;
-import org.hao.learn.api.FunctionDataBaseService;
-import org.hao.learn.api.ReadDataBaseService;
-import org.hao.learn.api.RoleDataBaseService;
-import org.hao.learn.api.WriteDataBaseService;
+import org.hao.learn.api.*;
 import org.hao.learn.collection.PageInfo;
 import org.hao.learn.person.domain.FunctionInfo;
 import org.hao.learn.person.domain.RoleInfo;
@@ -41,6 +38,8 @@ public class UserController {
     RoleDataBaseService<RoleInfo>         roleService;
     @Autowired
     HttpSession                           httpSession;
+    @Autowired
+    LogService                            logService;
 
     @PostMapping("/login")
     public UserInfo login(@RequestBody UserInfo userInfo) {
