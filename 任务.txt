@@ -6,5 +6,12 @@
 6. 统一异常处理;
 7. 统一日志处理;
 8. JMeter压力测试;
+9. shiro框架(spring security)
 9. JSP，Freemarker项目
 10. Spring Boot JSP，Freemarker
+===========================
+1. 二进制权限
+2. shiro框架
+3. JMeter压力测试
+4. 传统项目如何导入到idea中
+5. 你们在学校学的项目如何在idea中开发
