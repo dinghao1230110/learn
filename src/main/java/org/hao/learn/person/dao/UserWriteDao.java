@@ -16,7 +16,7 @@ public interface UserWriteDao {
      * 1个参数不用写@Param，但是必须在mapper.xml中指定parameterType类型
      *
      * @param userInfo
-     * @return
+     * @return 是否成功, 大于 0 表示成功, 否则是失败
      */
     int insertUser(UserInfo userInfo);
 
@@ -24,7 +24,8 @@ public interface UserWriteDao {
      * 2个（或2个以上）参数必须使用@Param注解，可以再mapper.xml中不用指定parameterType类型
      *
      * @param userInfo
-     * @return
+     * @param sqlFields
+     * @return 是否成功, 大于 0 表示成功, 否则是失败
      */
     int updateUser(@Param("userInfo") UserInfo userInfo,
                    @Param("sqlFields") List<SqlField> sqlFields);
