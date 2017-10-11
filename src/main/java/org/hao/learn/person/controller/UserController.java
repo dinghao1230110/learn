@@ -3,6 +3,8 @@ package org.hao.learn.person.controller;
 import org.hao.learn.annotate.Function;
 import org.hao.learn.api.*;
 import org.hao.learn.collection.PageInfo;
+import org.hao.learn.exception.MyException;
+import org.hao.learn.exception.NotLoginException;
 import org.hao.learn.person.domain.FunctionInfo;
 import org.hao.learn.person.domain.RoleInfo;
 import org.hao.learn.person.domain.UserInfo;
@@ -43,16 +45,19 @@ public class UserController {
 
     @PostMapping("/login")
     public UserInfo login(@RequestBody UserInfo userInfo) {
-        readDataBaseService.queryByLoginName("Hao", 1, 10);
+        UserInfo result = readDataBaseService.queryByLogin(userInfo.getLoginName());
+        if (result == null) {
+            throw new MyException("用户名密码不正确");
+        }
 
         List<RoleInfo>          roles     = roleService.queryRoleByUserId(userInfo.getId());
         Map<Long, FunctionInfo> functions = functionService.queryFunctionByRole(roles);
 
-        httpSession.setAttribute("userInfo", userInfo);
+        httpSession.setAttribute("userInfo", result);
         httpSession.setAttribute("roles", roles);
         httpSession.setAttribute("functions", functions);
 
-        return userInfo;
+        return result;
     }
 
     @PostMapping("/add")

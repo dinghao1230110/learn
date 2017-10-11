@@ -9,9 +9,12 @@ import org.hao.learn.annotate.Function;
 import org.hao.learn.api.FunctionDataBaseService;
 import org.hao.learn.api.LogService;
 import org.hao.learn.person.domain.FunctionInfo;
+import org.hao.learn.person.domain.UserInfo;
+import org.hao.learn.utils.CommonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
+import javax.servlet.http.HttpSession;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
@@ -27,6 +30,8 @@ public class LogAspect {
     LogService                            logService;
     @Autowired
     FunctionDataBaseService<FunctionInfo> functionService;
+    @Autowired
+    HttpSession                           httpSession;
 
     @Around("execution(* org.hao.learn..*Controller.*(..))")
     public Object writeLog(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -41,13 +46,13 @@ public class LogAspect {
             if (annotations[i] instanceof Function) {
                 Function     function     = (Function) annotations[i];
                 FunctionInfo functionInfo = functionService.queryFunctionById(function.value());
-
+                UserInfo     userInfo     = CommonUtil.getSessionAttribute(httpSession, "userInfo");
                 try {
                     Object obj = joinPoint.proceed();
-                    logService.addSuccessLog("调用功能", args, functionInfo.getName());
+                    logService.addSuccessLog("调用功能", args, userInfo.getLoginName() + functionInfo.getName());
                     return obj;
                 } catch (Throwable throwable) {
-                    logService.addFailureLog("调用功能", args, functionInfo.getName());
+                    logService.addFailureLog("调用功能", args, userInfo.getLoginName() + functionInfo.getName());
                     throw throwable;
                 }
             }

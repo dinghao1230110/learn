@@ -17,6 +17,5 @@ public interface ReadDataBaseService<T extends DomainAggregate> {
 
     PageInfo<T> queryByLoginName(String logName, int pageIndex, int pageSize);
 
-
-
+    UserInfo queryByLogin(String loginName);
 }

@@ -9,7 +9,10 @@ import org.hao.learn.annotate.Function;
 import org.hao.learn.api.FunctionDataBaseService;
 import org.hao.learn.api.LogService;
 import org.hao.learn.exception.AuthenticationException;
+import org.hao.learn.exception.NotLoginException;
 import org.hao.learn.person.domain.FunctionInfo;
+import org.hao.learn.person.domain.UserInfo;
+import org.hao.learn.utils.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,16 +52,22 @@ public class FunctionAspect {
         Object[] args = joinPoint.getArgs();
         //转换 object 为 Map<Long, FunctionInfo>
         Map<Long, FunctionInfo> functions = (Map<Long, FunctionInfo>) functionsObj;
+        UserInfo                userInfo  = CommonUtil.getSessionAttribute(httpSession, "userInfo");
 
         Annotation[] annotations = targetMethod.getAnnotations();
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i] instanceof Function) {
+
+                if (userInfo == null) {
+                    throw new NotLoginException();
+                }
+
                 Function     function     = (Function) annotations[i];
                 FunctionInfo functionInfo = functionService.queryFunctionById(function.value());
 
                 if (!functions.containsKey(function.value())) {
-                    String errorMsg = "您没有访问 " + functionInfo.getName() + " 的权限";
-                    logService.addFailureLog("鉴权", args, errorMsg);
+                    String errorMsg = "没有访问 " + functionInfo.getName() + " 的权限";
+                    logService.addFailureLog("鉴权", args, userInfo.getLoginName() + errorMsg);
                     throw new AuthenticationException(errorMsg);
                 }
             }

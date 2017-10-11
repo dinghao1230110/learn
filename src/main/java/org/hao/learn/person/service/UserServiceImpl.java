@@ -37,7 +37,7 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
     @Autowired
     UserReadDao  userReadDao;
     @Autowired
-    HttpSession httpSession;
+    HttpSession  httpSession;
 
     //region read
     public UserInfo queryById(long id) {
@@ -72,6 +72,27 @@ public class UserServiceImpl implements ReadDataBaseService<UserInfo>, WriteData
 
         PageInfo<UserInfo> pageInfo = new PageInfo<>(limit.getPageIndex(), limit.getPageSize(), total, result);
         return pageInfo;
+    }
+
+    /**
+     * 根据登录名查询用户
+     *
+     * @param loginName
+     * @return
+     */
+    @Override
+    public UserInfo queryByLogin(String loginName) {
+        Limit          limit      = Limit.generateLimitByPage(1, 1);
+        List<SqlQuery> sqlQueries = new ArrayList<>();
+        sqlQueries.add(new SqlQuery(UserInfoMate.SQL_LOGIN_NAME_FIELD).setOperator(SqlOperator.EQ).setValue(loginName));
+
+        List<UserInfo> result = userReadDao.queryBy(sqlQueries, limit);
+
+        if (result.size() != 1) {
+            return null;
+        } else {
+            return result.get(0);
+        }
     }
 
     //endregion
